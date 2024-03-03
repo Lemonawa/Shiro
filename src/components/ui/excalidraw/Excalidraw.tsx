@@ -11,12 +11,12 @@ import type { Delta } from 'jsondiffpatch'
 
 import { Excalidraw as Board, exportToBlob } from '@excalidraw/excalidraw'
 
-import { useIsMobile } from '~/atoms'
+import { useIsMobile } from '~/atoms/hooks'
 import { API_URL } from '~/constants/env'
 import { useIsDark } from '~/hooks/common/use-is-dark'
-import { cloneDeep } from '~/lib/_'
 import { stopPropagation } from '~/lib/dom'
 import { clsxm, safeJsonParse } from '~/lib/helper'
+import { cloneDeep } from '~/lib/lodash'
 import { toast } from '~/lib/toast'
 
 import { MotionButtonBase } from '../button'
@@ -190,7 +190,7 @@ const ExcalidrawImpl = forwardRef<InternelExcalidrawRefObject, ExcalidrawProps>(
               api.scrollToContent(undefined, {
                 fitToContent: true,
               })
-            }, 1000)
+            }, 300)
 
             onReady?.(api)
           }}
@@ -222,6 +222,7 @@ const ExcalidrawImpl = forwardRef<InternelExcalidrawRefObject, ExcalidrawProps>(
                       data={data}
                       className="h-full"
                       showExtendButton={false}
+                      refUrl={refUrl}
                     />
                   ),
                   clickOutsideToDismiss: true,

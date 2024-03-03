@@ -32,6 +32,7 @@ import {
   MTableBody,
   MTableHead,
   MTableRow,
+  MTableTd,
 } from './renderers'
 import { MDetails } from './renderers/collapse'
 import { MFootNote } from './renderers/footnotes'
@@ -42,7 +43,9 @@ import { getFootNoteDomId, getFootNoteRefDomId } from './utils/get-id'
 import { redHighlight } from './utils/redHighlight'
 
 const CodeBlock = dynamic(() =>
-  import('~/components/modules/shared/CodeBlock').then((mod) => mod.CodeBlock),
+  import('~/components/modules/shared/CodeBlock').then(
+    (mod) => mod.CodeBlockRender,
+  ),
 )
 
 export interface MdProps {
@@ -98,6 +101,7 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
           thead: MTableHead,
           tr: MTableRow,
           tbody: MTableBody,
+          td: MTableTd,
           table: MTable,
           // FIXME: footer tag in raw html will renders not as expected, but footer tag in this markdown lib will wrapper as linkReferer footnotes
           footer: MFootNote,
@@ -219,6 +223,18 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
               )
             },
           },
+          codeFenced: {
+            parse(capture /* , parse, state */) {
+              return {
+                content: capture[4],
+                lang: capture[2] || undefined,
+                type: 'codeBlock',
+
+                attrs: capture[3],
+              }
+            },
+          },
+
           codeBlock: {
             react(node, output, state) {
               return (
@@ -226,7 +242,20 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
                   key={state?.key}
                   content={node.content}
                   lang={node.lang}
+                  attrs={node?.attrs}
                 />
+              )
+            },
+          },
+          codeInline: {
+            react(node, output, state) {
+              return (
+                <code
+                  key={state?.key}
+                  className="rounded-md bg-zinc-200 px-2 font-mono dark:bg-neutral-800"
+                >
+                  {node.content}
+                </code>
               )
             },
           },

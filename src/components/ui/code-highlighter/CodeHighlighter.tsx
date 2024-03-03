@@ -25,7 +25,7 @@ interface Props {
   content: string
 }
 
-export const HighLighter: FC<Props> = (props) => {
+export const HighLighterPrismCdn: FC<Props> = (props) => {
   const { lang: language, content: value } = props
 
   const handleCopy = useCallback(() => {

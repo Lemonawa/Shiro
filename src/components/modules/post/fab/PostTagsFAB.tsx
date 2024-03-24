@@ -11,7 +11,7 @@ import { TimelineList } from '~/components/ui/list/TimelineList'
 import { Loading } from '~/components/ui/loading'
 import { useModalStack } from '~/components/ui/modal'
 import { Tag } from '~/components/ui/tag/Tag'
-import { apiClient } from '~/lib/request'
+import { apiClient } from '~/lib/request.new'
 import { routeBuilder, Routes } from '~/lib/route-builder'
 
 export const PostTagsFAB = () => {
@@ -23,6 +23,7 @@ export const PostTagsFAB = () => {
           content: TagsModal,
           clickOutsideToDismiss: true,
           title: '标签云',
+          modalClassName: 'w-[900px] max-w-full',
         })
       }}
     >
@@ -79,6 +80,7 @@ export const TagDetailModal = (props: { name: string }) => {
       return (await apiClient.category.getTagByName(tagName)).data
     },
     staleTime: 1000 * 60 * 60 * 24,
+    meta: {},
   })
   const { dismissAll } = useModalStack()
   if (isLoading) return <div className="h-30 loading-dots flex w-full center" />
@@ -87,37 +89,43 @@ export const TagDetailModal = (props: { name: string }) => {
 
   return (
     <TimelineList>
-      {data.map((item) => {
-        return (
-          <li
-            key={item.id}
-            className="flex items-center justify-between"
-            data-id={item.id}
-          >
-            <span className="flex min-w-0 flex-shrink items-center">
-              <span className="mr-2 inline-block w-12 tabular-nums">
-                {Intl.DateTimeFormat('en-us', {
-                  month: '2-digit',
-                  day: '2-digit',
-                }).format(new Date(item.created))}
-              </span>
-              <Link
-                onClick={() => {
-                  dismissAll()
-                }}
-                prefetch={false}
-                href={routeBuilder(Routes.Post, {
-                  category: item.category.slug,
-                  slug: item.slug,
-                })}
-                className="min-w-0 truncate leading-6"
-              >
-                <span className="min-w-0 truncate">{item.title}</span>
-              </Link>
-            </span>
-          </li>
+      {data
+        .sort(
+          (a, b) =>
+            new Date(b.created).getTime() - new Date(a.created).getTime(),
         )
-      })}
+        .map((item) => {
+          return (
+            <li
+              key={item.id}
+              className="flex items-center justify-between"
+              data-id={item.id}
+            >
+              <span className="flex min-w-0 shrink items-center">
+                <span className="mr-2 inline-block tabular-nums">
+                  {Intl.DateTimeFormat('en-us', {
+                    month: '2-digit',
+                    day: '2-digit',
+                    year: '2-digit',
+                  }).format(new Date(item.created))}
+                </span>
+                <Link
+                  onClick={() => {
+                    dismissAll()
+                  }}
+                  prefetch={false}
+                  href={routeBuilder(Routes.Post, {
+                    category: item.category.slug,
+                    slug: item.slug,
+                  })}
+                  className="min-w-0 truncate leading-6"
+                >
+                  <span className="min-w-0 truncate">{item.title}</span>
+                </Link>
+              </span>
+            </li>
+          )
+        })}
     </TimelineList>
   )
 }

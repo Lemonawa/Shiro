@@ -3,7 +3,7 @@ import Unidata from 'unidata.js'
 import type { NoteDto, PostDto } from '~/models/writing'
 import type { Contract } from 'crossbell'
 
-import { apiClient } from '~/lib/request'
+import { apiClient } from '~/lib/request.new'
 import { toast } from '~/lib/toast'
 
 const unidata = new Unidata()
@@ -196,7 +196,7 @@ export class CrossBellConnector {
       //     "0xbb572893c077f488172a52edc67cab0b485713d8a21312052a1a1cb4f74c8675"
       //   ]
       // }
-      console.debug(crossbellNoteData)
+
       await this.updateModel(data, {
         pageId: nextPageId,
         related_urls: [...metadata.content.external_urls],

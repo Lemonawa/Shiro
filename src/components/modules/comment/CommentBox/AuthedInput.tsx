@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import clsx from 'clsx'
-import Image from 'next/image'
 
 import { useUser } from '@clerk/nextjs'
 
@@ -34,12 +33,12 @@ export const CommentBoxAuthedInput = () => {
     <div className="flex space-x-4">
       <div
         className={clsx(
-          'mb-2 flex-shrink-0 select-none self-end overflow-hidden rounded-full',
+          'mb-2 shrink-0 select-none self-end overflow-hidden rounded-full',
           'dark:ring-zinc-800" bg-zinc-200 ring-2 ring-zinc-200 dark:bg-zinc-800',
           'ml-[2px] backface-hidden',
         )}
       >
-        <Image
+        <img
           className="rounded-full object-cover"
           src={user.imageUrl}
           alt={`${displayName}'s avatar`}

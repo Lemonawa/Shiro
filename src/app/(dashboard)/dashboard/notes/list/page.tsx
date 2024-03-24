@@ -90,7 +90,7 @@ const cardSlot: CardProps<NoteModel>['slots'] = {
             wrapperClassName="text-xs"
             as="span"
             type="tooltip"
-            TriggerComponent={() => '(已编辑)'}
+            triggerElement="(已编辑)"
           >
             编辑于 <RelativeTime date={data.modified} />
           </FloatPopover>
@@ -102,7 +102,7 @@ const cardSlot: CardProps<NoteModel>['slots'] = {
                 <img
                   src={data.topic?.icon}
                   alt=""
-                  className="h-5 w-5 rounded-full"
+                  className="size-5 rounded-full"
                 />
                 <div>{data.topic && data.topic.name}</div>
               </div>

@@ -17,19 +17,64 @@
     }
 
     .line {
-      @apply block px-4;
+      @apply block min-h-[1em] px-5;
+
+      & > span:last-child {
+        @apply mr-5;
+      }
     }
 
-    .highlighted {
-      @apply relative break-all bg-accent/20;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      overflow: auto;
+    .highlighted,
+    .diff {
+      @apply relative break-all;
 
       &::before {
-        @apply absolute left-0 top-0 h-full w-[2px] bg-accent;
+        @apply absolute left-0 top-0 h-full w-[2px];
         content: '';
       }
     }
+
+    .diff.add {
+      @apply bg-green-100 dark:bg-green-900;
+
+      &::before {
+        @apply bg-green-500;
+      }
+
+      &::after {
+        content: ' +';
+        @apply absolute left-0 text-green-500;
+      }
+    }
+
+    .diff.remove {
+      @apply bg-red-100 dark:bg-red-900;
+
+      &::before {
+        @apply bg-red-500;
+      }
+
+      &::after {
+        content: ' -';
+        @apply absolute left-0 text-red-500;
+      }
+    }
+
+    .highlighted {
+      @apply bg-accent/20;
+
+      &::before {
+        @apply bg-accent;
+      }
+    }
+  }
+
+  .scroll-container pre::-webkit-scrollbar-track {
+    margin-left: 1rem;
+    margin-right: var(--sr-margin, 0);
+  }
+
+  .scroll-container pre::-webkit-scrollbar {
+    background-color: transparent !important;
   }
 }

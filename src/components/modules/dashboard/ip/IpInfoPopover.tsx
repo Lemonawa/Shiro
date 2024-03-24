@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useLayoutEffect, useState } from 'react'
 
 import { FloatPopover } from '~/components/ui/float-popover'
-import { apiClient } from '~/lib/request'
+import { apiClient } from '~/lib/request.new'
 
 interface IpInfoPopoverProps {
   ip: string
@@ -50,7 +50,7 @@ export const IpInfoPopover: Component<IpInfoPopoverProps> = (props) => {
       onOpen={() => {
         refetch()
       }}
-      TriggerComponent={() => <span className={className}>{ip}</span>}
+      triggerElement={<span className={className}>{ip}</span>}
     >
       {isLoading ? (
         '...'

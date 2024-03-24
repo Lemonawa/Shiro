@@ -27,7 +27,7 @@ export const PostMetaBar: Component<{
   return (
     <div
       className={clsxm(
-        'flex min-w-0 flex-shrink flex-grow flex-wrap gap-2 text-sm',
+        'flex min-w-0 shrink grow flex-wrap gap-2 text-sm',
         className,
       )}
     >
@@ -45,7 +45,7 @@ export const PostMetaBar: Component<{
             wrapperClassName="text-xs"
             as="span"
             type="tooltip"
-            TriggerComponent={() => '(已编辑)'}
+            triggerElement="(已编辑)"
           >
             编辑于 <RelativeTime date={meta.modified} />
           </FloatPopover>
@@ -106,7 +106,9 @@ export const PostMetaBar: Component<{
       {!!meta.count?.read && (
         <div className="flex min-w-0 items-center space-x-1">
           <i className="icon-[mingcute--eye-2-line]" />
-          <span className="min-w-0 truncate">{meta.count.read}</span>
+          <span className="min-w-0 truncate">
+            <NumberSmoothTransition>{meta.count.read}</NumberSmoothTransition>
+          </span>
         </div>
       )}
       {!!meta.count?.like && (

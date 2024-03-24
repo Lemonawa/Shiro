@@ -55,15 +55,15 @@ export const CommentBatchActionGroup = () => {
         <FloatPopover
           type="tooltip"
           placement="bottom"
-          TriggerComponent={() => (
+          triggerElement={
             <RoundedIconButton
               onClick={() => {
                 batchChangeState(CommentState.Read)
               }}
             >
-              <i className="icon-[mingcute--check-fill] h-5 w-5" />
+              <i className="icon-[mingcute--check-fill] size-5" />
             </RoundedIconButton>
-          )}
+          }
         >
           已读
         </FloatPopover>
@@ -73,16 +73,16 @@ export const CommentBatchActionGroup = () => {
         <FloatPopover
           type="tooltip"
           placement="bottom"
-          TriggerComponent={() => (
+          triggerElement={
             <RoundedIconButton
               className="bg-yellow-400 dark:bg-orange-500"
               onClick={() => {
                 batchChangeState(CommentState.Junk)
               }}
             >
-              <i className="icon-[mingcute--delete-2-line] h-5 w-5" />
+              <i className="icon-[mingcute--delete-2-line] size-5" />
             </RoundedIconButton>
-          )}
+          }
         >
           垃圾
         </FloatPopover>
@@ -90,7 +90,7 @@ export const CommentBatchActionGroup = () => {
       <FloatPopover
         type="tooltip"
         placement="bottom"
-        TriggerComponent={() => (
+        triggerElement={
           <RoundedIconButton
             className="bg-red-200 duration-200 hover:bg-red-400 dark:bg-red-900"
             onClick={() => {
@@ -113,9 +113,9 @@ export const CommentBatchActionGroup = () => {
               })
             }}
           >
-            <i className="icon-[mingcute--close-line] h-5 w-5" />
+            <i className="icon-[mingcute--close-line] size-5" />
           </RoundedIconButton>
-        )}
+        }
       >
         删除
       </FloatPopover>

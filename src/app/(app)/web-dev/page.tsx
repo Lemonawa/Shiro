@@ -6,7 +6,6 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { m } from 'framer-motion'
 
 import {
-  useActivityPresence,
   useActivityPresenceBySessionId,
   useSocketIsConnect,
   useSocketSessionId,
@@ -14,7 +13,7 @@ import {
 import { StyledButton } from '~/components/ui/button'
 import { FloatPopover } from '~/components/ui/float-popover'
 import { debounce } from '~/lib/lodash'
-import { apiClient } from '~/lib/request'
+import { apiClient } from '~/lib/request.new'
 import { usePageScrollLocation } from '~/providers/root/page-scroll-info-provider'
 import { queries } from '~/queries/definition'
 import { socketClient } from '~/socket'
@@ -77,15 +76,9 @@ export default () => {
 const ReadPresenceTimeline = () => {
   const sessionId = useSocketSessionId()
   const activityPresence = useActivityPresenceBySessionId(sessionId)
-  console.log(
-    activityPresence,
-    'activityPresence',
-    sessionId,
-    useActivityPresence(),
-  )
 
   return (
-    <div className="fixed bottom-0 left-0 top-0">
+    <div className="fixed inset-y-0 left-0">
       <FloatPopover
         asChild
         placement="right"

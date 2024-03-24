@@ -13,6 +13,7 @@ import { FloatPopover } from '~/components/ui/float-popover'
 import { Form, FormInput } from '~/components/ui/form'
 import { FixedZoomedImage } from '~/components/ui/image'
 import { useCurrentModal, useModalStack } from '~/components/ui/modal'
+import { getToken } from '~/lib/cookie'
 import { toast } from '~/lib/toast'
 
 const base64ToFile = (base64: string) => {
@@ -37,6 +38,7 @@ const Image = () => {
     if (src.startsWith('http')) return
     const formData = new FormData()
     formData.append('file', base64ToFile(src))
+    formData.append('token', getToken()!)
 
     fetch('/api/s3', {
       method: 'POST',
@@ -67,7 +69,7 @@ const Image = () => {
           containerWidth={isMobile ? 450 : 600}
         />
 
-        <div className="absolute bottom-1 left-1 z-[10] opacity-0 duration-200 group-hover:opacity-100">
+        <div className="absolute bottom-1 left-1 z-10 opacity-0 duration-200 group-hover:opacity-100">
           <StyledButton
             onClick={() => {
               modal.present({
@@ -85,7 +87,7 @@ const Image = () => {
               })
             }}
             variant="secondary"
-            className="box-content flex h-6 w-6 rounded-full p-2 center"
+            className="box-content flex size-6 rounded-full p-2 center"
           >
             <i className="icon-[mingcute--edit-line] text-[16px]" />
           </StyledButton>

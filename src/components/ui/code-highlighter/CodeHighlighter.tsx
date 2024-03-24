@@ -8,6 +8,7 @@ import type { FC } from 'react'
 
 import { useIsPrintMode } from '~/atoms/css-media'
 import { useIsDark } from '~/hooks/common/use-is-dark'
+import { stopPropagation } from '~/lib/dom'
 import { clsxm } from '~/lib/helper'
 import { loadScript, loadStyleSheet } from '~/lib/load-script'
 import { toast } from '~/lib/toast'
@@ -30,13 +31,13 @@ export const HighLighterPrismCdn: FC<Props> = (props) => {
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(value)
-    toast.success('COPIED!')
+    toast.success('已复制到剪贴板')
   }, [value])
 
   const ref = useRef<HTMLElement>(null)
   useLoadHighlighter(ref)
   return (
-    <div className={styles['code-wrap']}>
+    <div className={styles['code-wrap']} onCopy={stopPropagation}>
       <span className={styles['language-tip']} aria-hidden>
         {language?.toUpperCase()}
       </span>
@@ -70,6 +71,7 @@ export const BaseCodeHighlighter: Component<
   }, [content, lang])
   return (
     <pre
+      onCopy={stopPropagation}
       className={clsxm('!bg-transparent', className)}
       style={style}
       data-start="1"
@@ -136,9 +138,6 @@ const useLoadHighlighter = (ref: React.RefObject<HTMLElement>) => {
           })
         } else {
           requestAnimationFrame(() => {
-            window.Prism?.highlightAll()
-            // highlightAll twice
-
             requestAnimationFrame(() => {
               window.Prism?.highlightAll()
             })

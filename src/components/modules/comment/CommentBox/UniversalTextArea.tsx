@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { useIsomorphicLayoutEffect } from 'foxact/use-isomorphic-layout-effect'
 import dynamic from 'next/dynamic'
 
 import { FloatPopover } from '~/components/ui/float-popover'
@@ -53,12 +54,18 @@ export const UniversalTextArea: Component = ({ className }) => {
     }
   }, [value])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (location.hash !== '#comment') {
+      return
+    }
+
     // autofocus
     const $ta = taRef.current
     if (!$ta) return
     $ta.selectionStart = $ta.selectionEnd = $ta.value.length
     $ta.focus()
+
+    $ta.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }, [])
 
   return (
@@ -81,7 +88,7 @@ export const UniversalTextArea: Component = ({ className }) => {
 const EmojiButton = () => {
   return (
     <button
-      className="ml-0 inline-flex h-5 w-5 translate-y-1 text-base center md:ml-4"
+      className="ml-0 inline-flex size-5 translate-y-1 text-base center md:ml-4"
       onClick={preventDefault}
     >
       <i className="icon-[mingcute--emoji-2-line]" />

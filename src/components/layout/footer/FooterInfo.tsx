@@ -1,8 +1,11 @@
 import Link from 'next/link'
 import type { FooterConfig } from './config'
 
+import { fetchAggregationData } from '~/app/(app)/api'
 import { IonIosArrowDown } from '~/components/icons/arrow'
 import { SubscribeTextButton } from '~/components/modules/subscribe/SubscribeTextButton'
+import { FloatPopover } from '~/components/ui/float-popover'
+import { MLink } from '~/components/ui/link'
 import { clsxm } from '~/lib/helper'
 import { getQueryClient } from '~/lib/query-client.server'
 import { queries } from '~/queries/definition'
@@ -11,19 +14,18 @@ import { defaultLinkSections } from './config'
 // import { footerConfig } from './config'
 import { GatewayInfo } from './GatewayInfo'
 import { OwnerName } from './OwnerName'
-import { VercelPoweredBy } from './VercelPoweredBy'
 
-const isVercelEnv = !!process.env.NEXT_PUBLIC_VERCEL_ENV
+// const isVercelEnv = !!process.env.NEXT_PUBLIC_VERCEL_ENV
 export const FooterInfo = () => {
   return (
     <>
       <div className="relative">
         <FooterLinkSection />
-        {isVercelEnv && (
+        {/* {isVercelEnv && (
           <div className="absolute top-0 hidden lg:-right-8 lg:block">
             <VercelPoweredBy />
           </div>
-        )}
+        )} */}
       </div>
 
       <FooterBottom />
@@ -38,9 +40,7 @@ export const FooterInfo = () => {
 }
 
 const FooterLinkSection = async () => {
-  const queryClient = getQueryClient()
-  const data = await queryClient.fetchQuery(queries.aggregation.root())
-  const { footer } = data.theme
+  const { footer } = (await fetchAggregationData()).theme
   const footerConfig: FooterConfig = footer || {
     linkSections: defaultLinkSections,
   }
@@ -115,9 +115,23 @@ const PoweredBy: Component = ({ className }) => {
         Mix Space
       </StyledLink>
       <span className="mx-1">&</span>
-      <StyledLink href="https://github.com/innei/Shiro" target="_blank">
-        Shiro
-      </StyledLink>
+      <FloatPopover
+        isDisabled={!process.env.COMMIT_HASH}
+        type="tooltip"
+        triggerElement={
+          <StyledLink href="https://github.com/innei/Shiro" target="_blank">
+            Shiro
+          </StyledLink>
+        }
+      >
+        {process.env.COMMIT_HASH && (
+          <MLink
+            href={`https://github.com/innei/Shiro/commit/${process.env.COMMIT_HASH}`}
+          >
+            开源版本哈希：{process.env.COMMIT_HASH}
+          </MLink>
+        )}
+      </FloatPopover>
       .
     </span>
   )

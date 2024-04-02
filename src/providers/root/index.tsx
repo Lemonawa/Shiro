@@ -4,7 +4,6 @@ import {
   ReactQueryProvider,
   ReactQueryProviderForDashboard,
 } from './react-query-provider'
-import { Provider as BalancerProvider } from 'react-wrap-balancer'
 import { LazyMotion } from 'framer-motion'
 import { ThemeProvider } from 'next-themes'
 import type { PropsWithChildren } from 'react'
@@ -18,7 +17,6 @@ import { DebugProvider } from './debug-provider'
 import { EventProvider } from './event-provider'
 import { JotaiStoreProvider } from './jotai-provider'
 import { PageScrollInfoProvider } from './page-scroll-info-provider'
-import { ScriptInjectProvider } from './script-inject-provider'
 import { SocketContainer } from './socket-provider'
 
 const loadFeatures = () =>
@@ -28,7 +26,6 @@ const baseContexts: JSX.Element[] = [
   <ThemeProvider key="themeProvider" />,
   <JotaiStoreProvider key="jotaiStoreProvider" />,
 
-  <BalancerProvider key="balancerProvider" />,
   <LazyMotion features={loadFeatures} strict key="framer" />,
 ]
 
@@ -47,8 +44,6 @@ export function WebAppProviders({ children }: PropsWithChildren) {
       {/* <SentryProvider key="SentryProvider" /> */}
       <PageScrollInfoProvider key="PageScrollInfoProvider" />
       <DebugProvider key="debugProvider" />
-
-      <ScriptInjectProvider />
     </ProviderComposer>
   )
 }

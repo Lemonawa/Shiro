@@ -1,10 +1,11 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import React, { createElement } from 'react'
+import { createElement } from 'react'
 import clsx from 'clsx'
 import { m } from 'framer-motion'
 import Image from 'next/image'
+import type React from 'react'
 
 import { ErrorBoundary } from '~/components/common/ErrorBoundary'
 import {
@@ -64,7 +65,7 @@ const TwoColumnLayout = ({
   return (
     <div
       className={clsxm(
-        'relative block size-full min-w-0 max-w-[1800px] flex-col flex-wrap items-center lg:flex lg:flex-row',
+        'relative mx-auto block size-full min-w-0 max-w-[1800px] flex-col flex-wrap items-center lg:flex lg:flex-row',
         className,
       )}
     >
@@ -185,7 +186,7 @@ const Hero = () => {
             'text-neutral-800/80 center dark:text-neutral-200/80',
           )}
         >
-          <small>
+          <small className="text-center">
             当第一颗卫星飞向大气层外，我们便以为自己终有一日会征服宇宙。
           </small>
           <span className="mt-8 animate-bounce">
